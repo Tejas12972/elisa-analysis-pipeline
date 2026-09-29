@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ELISA Analysis Pipeline</title>
+<meta name="description" content="A tested Python pipeline for sandwich-ELISA data: weighted 4PL/5PL standard curves, QC, inter-plate normalization and statistics, with a live in-browser app.">
+<meta property="og:title" content="ELISA Analysis Pipeline">
+<meta property="og:description" content="Raw plate-reader data → QC'd concentrations → statistics. Validated on simulated ground truth and two public datasets. Try it live in your browser.">
+<meta property="og:image" content="img/app_screenshot.png">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧪</text></svg>">
+<style>
+:root{--surface:#ffffff;--page:#f7f7f5;--ink:#0b0b0b;--ink2:#52514e;--muted:#898781;--grid:#e4e3dc;
+--accent:#2a78d6;--accent-ink:#ffffff;--band:#f0efec;--good:#006300}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--surface:#1a1a19;--page:#0f0f0e;
+--ink:#fff;--ink2:#c3c2b7;--muted:#898781;--grid:#2c2c2a;--accent:#3987e5;--band:#262624;--good:#0ca30c}}
+:root[data-theme="dark"]{--surface:#1a1a19;--page:#0f0f0e;--ink:#fff;--ink2:#c3c2b7;--muted:#898781;
+--grid:#2c2c2a;--accent:#3987e5;--band:#262624;--good:#0ca30c}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--page);color:var(--ink);font:16px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif}
+a{color:var(--accent)}
+main{max-width:1040px;margin:0 auto;padding:0 16px 72px}
+header.hero{padding:64px 0 36px}
+.eyebrow{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 10px}
+h1{font-size:clamp(30px,5vw,46px);line-height:1.1;margin:0 0 14px;letter-spacing:-.02em}
+.lede{font-size:clamp(17px,2.2vw,20px);color:var(--ink2);max-width:760px;margin:0 0 26px}
+.cta{display:flex;flex-wrap:wrap;gap:10px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 18px;border-radius:9px;font-weight:600;
+font-size:15px;text-decoration:none;border:1px solid var(--grid);color:var(--ink);background:var(--surface)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn:hover{filter:brightness(1.05)}
+.note{font-size:13px;color:var(--muted);margin:10px 0 0}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin:8px 0 40px}
+.stat{background:var(--surface);border:1px solid var(--grid);border-radius:12px;padding:16px}
+.stat .v{font-size:28px;font-weight:700;letter-spacing:-.01em}
+.stat .l{color:var(--ink2);font-size:14px}
+h2{font-size:24px;margin:48px 0 6px;letter-spacing:-.01em}
+.sub{color:var(--ink2);margin:0 0 18px;max-width:760px}
+.shot{width:100%;border-radius:12px;border:1px solid var(--grid);display:block;background:#fff}
+.figs{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px}
+figure{margin:0;background:var(--surface);border:1px solid var(--grid);border-radius:12px;padding:12px}
+figure img{width:100%;display:block;border-radius:6px;background:#fcfcfb}
+figcaption{font-size:14px;color:var(--ink2);margin-top:8px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px}
+.card{display:block;background:var(--surface);border:1px solid var(--grid);border-radius:12px;padding:18px;
+text-decoration:none;color:var(--ink)}
+.card:hover{border-color:var(--accent)}
+.card b{display:block;font-size:17px;margin-bottom:4px}
+.card span{color:var(--ink2);font-size:15px}
+.card .tag{display:inline-block;font-size:12px;font-weight:600;color:var(--accent);margin-bottom:6px;
+text-transform:uppercase;letter-spacing:.06em}
+ul.findings{padding-left:20px;margin:8px 0 0}
+ul.findings li{margin:6px 0;color:var(--ink2)}
+ul.findings b{color:var(--ink)}
+.pipeline{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 0}
+.step{background:var(--surface);border:1px solid var(--grid);border-radius:999px;padding:6px 14px;font-size:14px}
+.stack{display:flex;flex-wrap:wrap;gap:8px}
+.chip{background:var(--band);border-radius:6px;padding:4px 10px;font-size:14px;color:var(--ink2)}
+footer{margin-top:64px;padding-top:20px;border-top:1px solid var(--grid);color:var(--muted);font-size:14px}
+</style>
+</head>
+<body>
+<main>
+<header class="hero">
+  <p class="eyebrow">Bioanalytical data science · Python</p>
+  <h1>ELISA Analysis Pipeline</h1>
+  <p class="lede">A tested, end-to-end pipeline that turns raw 96-well plate-reader data from
+  sandwich ELISAs into quality-controlled analyte concentrations, statistical comparisons
+  between treatment groups, and an audit-ready report.</p>
+  <div class="cta">
+    <a class="btn primary" href="app/">▶ Launch the live app</a>
+    <a class="btn" href="https://github.com/Tejas12972/elisa-analysis-pipeline">View source on GitHub</a>
+    <a class="btn" href="reports/demo_report.html">Example report</a>
+  </div>
+  <p class="note">The app runs entirely in your browser (Python compiled to WebAssembly). The
+  first load takes about 30 seconds while the scientific Python stack downloads.</p>
+</header>
+
+<section class="stats" aria-label="Project at a glance">
+  <div class="stat"><div class="v">135</div><div class="l">automated tests · 97% coverage</div></div>
+  <div class="stat"><div class="v">&lt; 8%</div><div class="l">median error recovering simulated ground truth</div></div>
+  <div class="stat"><div class="v">2</div><div class="l">public real-world datasets re-analysed</div></div>
+  <div class="stat"><div class="v">0</div><div class="l">servers needed for the live app</div></div>
+</section>
+
+<img class="shot" src="img/app_screenshot.png" alt="The live app showing plate QC results for the demo study">
+
+<h2>What it does</h2>
+<p class="sub">Each stage is a documented module with the scientific reasoning in its docstrings.</p>
+<div class="pipeline">
+  <span class="step">Parse &amp; validate plates</span><span class="step">Blank subtraction</span>
+  <span class="step">Weighted 4PL / 5PL fit (AICc)</span><span class="step">Back-calculation</span>
+  <span class="step">Outliers · %CV · recovery</span><span class="step">LOD / LLOQ / ULOQ</span>
+  <span class="step">Controls &amp; plate pass/fail</span><span class="step">Dilution linearity</span>
+  <span class="step">Inter-plate normalization</span><span class="step">Welch / Mann-Whitney / ANOVA · BH-FDR</span>
+  <span class="step">HTML report</span>
+</div>
+
+<h2>Outputs</h2>
+<div class="figs">
+  <figure><img src="img/standard_curve.png" alt="Standard curve with quantifiable range and residuals">
+    <figcaption>Weighted 4PL fit, validated quantification range, LOD, and weighted residuals.</figcaption></figure>
+  <figure><img src="img/group_comparison.png" alt="IL-6 by treatment group">
+    <figcaption>Group comparison with Holm-adjusted significance. Hollow points are censored values.</figcaption></figure>
+  <figure><img src="img/normalization.png" alt="Bridge controls before and after normalization">
+    <figcaption>Bridge controls before and after inter-plate normalization (IL-6 control CV ~25% → ~5%).</figcaption></figure>
+  <figure><img src="img/plate_map.png" alt="Plate map heatmap">
+    <figcaption>Raw-OD plate map. Edge effects and pipetting gradients show up here.</figcaption></figure>
+</div>
+
+<h2>Real data, honest conclusions</h2>
+<div class="cards">
+  <a class="card" href="https://nbviewer.org/github/Tejas12972/elisa-analysis-pipeline/blob/main/notebooks/01_sleep_fragmentation_il6.ipynb">
+    <span class="tag">Notebook · biology</span>
+    <b>Serum IL-6 after sleep fragmentation</b>
+    <span>A re-analysis of a published mouse study (Dryad, CC0).
+    <ul class="findings">
+      <li>The original straight-line calibrations recover standards at <b>28–142%</b>. The weighted 4PL recovers <b>94–102%</b>.</li>
+      <li><b>100 / 110</b> samples fall below the LLOQ.</li>
+      <li>A labelled sensitivity analysis still reproduces the IL-6 rise at <b>6, 12 and 24 h</b>.</li>
+    </ul></span>
+  </a>
+  <a class="card" href="https://nbviewer.org/github/Tejas12972/elisa-analysis-pipeline/blob/main/notebooks/02_elisatools_softmax_qc.ipynb">
+    <span class="tag">Notebook · QC</span>
+    <b>SoftMax Pro plates across two kit lots</b>
+    <span>Five real plates (ELISAtools, MIT).
+    <ul class="findings">
+      <li>Rule-based outlier QC matches the analyst on <b>4 / 4</b> wells, and exposes <b>13</b> discretionary masks.</li>
+      <li>A shared control reveals a <b>~30% kit-lot shift</b>, which normalization corrects.</li>
+    </ul></span>
+  </a>
+</div>
+
+<h2>Reports</h2>
+<p class="sub">Self-contained HTML, regenerated from the code on every deploy.</p>
+<div class="cards">
+  <a class="card" href="reports/demo_report.html"><span class="tag">Simulated</span><b>Demo study</b>
+    <span>Two cytokines, three treatment groups, four plates with calibrator bias, edge effects and outlier wells.</span></a>
+  <a class="card" href="reports/sleep_fragmentation_il6_report.html"><span class="tag">Real data</span><b>Mouse IL-6</b>
+    <span>Four plates and 110 samples, with plate acceptance, censoring and flags.</span></a>
+  <a class="card" href="reports/elisatools_softmax_report.html"><span class="tag">Real data</span><b>SoftMax plates</b>
+    <span>Triplicate QC and kit-lot normalization.</span></a>
+</div>
+
+<h2>Built with</h2>
+<div class="stack">
+  <span class="chip">Python 3.11–3.13</span><span class="chip">NumPy</span><span class="chip">pandas</span>
+  <span class="chip">SciPy (curve_fit)</span><span class="chip">statsmodels</span><span class="chip">matplotlib</span>
+  <span class="chip">Streamlit</span><span class="chip">stlite / Pyodide (WebAssembly)</span>
+  <span class="chip">pytest</span><span class="chip">ruff</span><span class="chip">GitHub Actions</span><span class="chip">GitHub Pages</span>
+</div>
+
+<footer>Built by Tejas Basavarajappa · MIT license ·
+  <a href="https://github.com/Tejas12972/elisa-analysis-pipeline">github.com/Tejas12972/elisa-analysis-pipeline</a></footer>
+</main>
+</body>
+</html>

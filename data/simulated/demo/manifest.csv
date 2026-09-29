@@ -1,0 +1,5 @@
+plate_id,analyte,plate_file,layout_file,units
+IL6_P1,IL-6,plates/IL6_P1.csv,layouts/IL6_P1_layout.csv,pg/mL
+IL6_P2,IL-6,plates/IL6_P2.csv,layouts/IL6_P2_layout.csv,pg/mL
+TNFa_P1,TNF-α,plates/TNFa_P1.csv,layouts/TNFa_P1_layout.csv,pg/mL
+TNFa_P2,TNF-α,plates/TNFa_P2.csv,layouts/TNFa_P2_layout.csv,pg/mL

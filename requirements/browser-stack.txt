@@ -1,0 +1,11 @@
+# Package versions matching the live in-browser app (stlite 1.9.2 on Pyodide, Python 3.13).
+# CI runs the full test suite against these so the web app can't silently diverge from local
+# development (e.g. SciPy 1.14's kruskal raises on all-tied data where newer SciPy returns NaN).
+numpy>=2.2,<2.3
+pandas>=2.3,<2.4
+scipy>=1.14,<1.15
+statsmodels==0.14.4
+matplotlib>=3.8,<3.9
+openpyxl
+streamlit==1.62.0
+pytest

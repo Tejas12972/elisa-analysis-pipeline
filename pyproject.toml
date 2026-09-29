@@ -1,0 +1,71 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "elisa-analysis-pipeline"
+version = "1.0.0"
+description = "QC'd analysis pipeline for sandwich ELISA 96-well plate-reader data"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "Tejas Basavarajappa" }]
+keywords = ["elisa", "immunoassay", "4pl", "dose-response", "bioanalysis", "cytokines", "qc"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
+]
+dependencies = [
+    "numpy>=1.26",
+    "pandas>=2.1",
+    "scipy>=1.11",
+    "statsmodels>=0.14",
+    "matplotlib>=3.8",
+    "openpyxl>=3.1",
+]
+
+[project.urls]
+Homepage = "https://tejas12972.github.io/elisa-analysis-pipeline/"
+Repository = "https://github.com/Tejas12972/elisa-analysis-pipeline"
+
+[project.optional-dependencies]
+app = ["streamlit>=1.30"]
+dev = ["pytest>=7.4", "pytest-cov>=4.1", "ruff>=0.4"]
+notebooks = ["nbformat>=5.9", "nbclient>=0.9", "ipykernel>=6.25"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "N", "SIM", "NPY", "PD", "RUF"]
+ignore = [
+    "PD009",   # `.iat` is the fast scalar accessor; ruff prefers `.iloc`
+    "PD010",   # `.pivot` is the clearest way to rebuild an 8x12 grid
+    "RUF001",  # scientific notation in strings (×, ², α, −) is deliberate
+    "RUF002",
+    "RUF003",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"app/*" = ["N812"]        # `plotting as P` mirrors the notebooks
+"scripts/*" = ["N812"]
+"scripts/build_notebooks.py" = ["E501"]  # notebook source lives in string literals
+"notebooks/*" = ["N812", "E501"]
+"tests/*" = ["N806"]
+
+[project.scripts]
+immunoassay = "immunoassay.cli:main"

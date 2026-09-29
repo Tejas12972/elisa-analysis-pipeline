@@ -1,0 +1,5 @@
+plate_id,analyte,plate_file,layout_file,units
+plate1,IL-6,plates/plate1.csv,layouts/plate1_layout.csv,pg/mL
+plate2,IL-6,plates/plate2.csv,layouts/plate2_layout.csv,pg/mL
+plate3,IL-6,plates/plate3.csv,layouts/plate3_layout.csv,pg/mL
+plate4,IL-6,plates/plate4.csv,layouts/plate4_layout.csv,pg/mL

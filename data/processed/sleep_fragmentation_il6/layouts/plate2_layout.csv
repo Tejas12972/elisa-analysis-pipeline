@@ -1,0 +1,77 @@
+well,type,sample_id,concentration,dilution,group,treatment,time_h
+A1,standard,STD1,500.0,1.0,,,
+A2,standard,STD1,500.0,1.0,,,
+B1,standard,STD2,250.0,1.0,,,
+B2,standard,STD2,250.0,1.0,,,
+C1,standard,STD3,125.0,1.0,,,
+C2,standard,STD3,125.0,1.0,,,
+D1,standard,STD4,62.5,1.0,,,
+D2,standard,STD4,62.5,1.0,,,
+E1,standard,STD5,31.3,1.0,,,
+E2,standard,STD5,31.3,1.0,,,
+F1,standard,STD6,15.6,1.0,,,
+F2,standard,STD6,15.6,1.0,,,
+G1,standard,STD7,7.8,1.0,,,
+G2,standard,STD7,7.8,1.0,,,
+H1,blank,,,1.0,,,
+H2,blank,,,1.0,,,
+A3,sample,M_NSF2h-1,,1.0,NSF 2h,NSF,2.0
+A4,sample,M_NSF2h-1,,1.0,NSF 2h,NSF,2.0
+C5,sample,M_ASF2h-1,,2.0,ASF 2h,ASF,2.0
+C6,sample,M_ASF2h-1,,2.0,ASF 2h,ASF,2.0
+E7,sample,M_NSF6h-1,,2.0,NSF 6h,NSF,6.0
+E8,sample,M_NSF6h-1,,2.0,NSF 6h,NSF,6.0
+B3,sample,M_NSF2h-2,,1.0,NSF 2h,NSF,2.0
+B4,sample,M_NSF2h-2,,1.0,NSF 2h,NSF,2.0
+D5,sample,M_ASF2h-2,,2.0,ASF 2h,ASF,2.0
+D6,sample,M_ASF2h-2,,2.0,ASF 2h,ASF,2.0
+F7,sample,M_NSF6h-2,,1.0,NSF 6h,NSF,6.0
+F8,sample,M_NSF6h-2,,1.0,NSF 6h,NSF,6.0
+C3,sample,M_NSF2h-3,,1.0,NSF 2h,NSF,2.0
+C4,sample,M_NSF2h-3,,1.0,NSF 2h,NSF,2.0
+E5,sample,M_ASF2h-3,,1.0,ASF 2h,ASF,2.0
+E6,sample,M_ASF2h-3,,1.0,ASF 2h,ASF,2.0
+G7,sample,M_NSF6h-3,,1.0,NSF 6h,NSF,6.0
+G8,sample,M_NSF6h-3,,1.0,NSF 6h,NSF,6.0
+D3,sample,M_NSF2h-4,,2.0,NSF 2h,NSF,2.0
+D4,sample,M_NSF2h-4,,2.0,NSF 2h,NSF,2.0
+F5,sample,M_ASF2h-4,,1.0,ASF 2h,ASF,2.0
+F6,sample,M_ASF2h-4,,1.0,ASF 2h,ASF,2.0
+H7,sample,M_NSF6h-4,,2.0,NSF 6h,NSF,6.0
+H8,sample,M_NSF6h-4,,2.0,NSF 6h,NSF,6.0
+E3,sample,M_NSF2h-5,,2.0,NSF 2h,NSF,2.0
+E4,sample,M_NSF2h-5,,2.0,NSF 2h,NSF,2.0
+G5,sample,M_ASF2h-5,,1.0,ASF 2h,ASF,2.0
+G6,sample,M_ASF2h-5,,1.0,ASF 2h,ASF,2.0
+A9,sample,M_NSF6h-5,,1.0,NSF 6h,NSF,6.0
+A10,sample,M_NSF6h-5,,1.0,NSF 6h,NSF,6.0
+F3,sample,M_NSF2h-6,,1.0,NSF 2h,NSF,2.0
+F4,sample,M_NSF2h-6,,1.0,NSF 2h,NSF,2.0
+H5,sample,M_ASF2h-6,,1.0,ASF 2h,ASF,2.0
+H6,sample,M_ASF2h-6,,1.0,ASF 2h,ASF,2.0
+B9,sample,M_NSF6h-6,,1.0,NSF 6h,NSF,6.0
+B10,sample,M_NSF6h-6,,1.0,NSF 6h,NSF,6.0
+G3,sample,M_NSF2h-7,,1.0,NSF 2h,NSF,2.0
+G4,sample,M_NSF2h-7,,1.0,NSF 2h,NSF,2.0
+A7,sample,M_ASF2h-7,,2.0,ASF 2h,ASF,2.0
+A8,sample,M_ASF2h-7,,2.0,ASF 2h,ASF,2.0
+C9,sample,M_NSF6h-7,,2.0,NSF 6h,NSF,6.0
+C10,sample,M_NSF6h-7,,2.0,NSF 6h,NSF,6.0
+H3,sample,M_NSF2h-8,,1.0,NSF 2h,NSF,2.0
+H4,sample,M_NSF2h-8,,1.0,NSF 2h,NSF,2.0
+B7,sample,M_ASF2h-8,,1.0,ASF 2h,ASF,2.0
+B8,sample,M_ASF2h-8,,1.0,ASF 2h,ASF,2.0
+D9,sample,M_NSF6h-8,,1.0,NSF 6h,NSF,6.0
+D10,sample,M_NSF6h-8,,1.0,NSF 6h,NSF,6.0
+A5,sample,M_NSF2h-9,,2.0,NSF 2h,NSF,2.0
+A6,sample,M_NSF2h-9,,2.0,NSF 2h,NSF,2.0
+C7,sample,M_ASF2h-9,,1.0,ASF 2h,ASF,2.0
+C8,sample,M_ASF2h-9,,1.0,ASF 2h,ASF,2.0
+E9,sample,M_NSF6h-9,,1.0,NSF 6h,NSF,6.0
+E10,sample,M_NSF6h-9,,1.0,NSF 6h,NSF,6.0
+B5,sample,M_NSF2h-10,,1.0,NSF 2h,NSF,2.0
+B6,sample,M_NSF2h-10,,1.0,NSF 2h,NSF,2.0
+D7,sample,M_ASF2h-10,,1.0,ASF 2h,ASF,2.0
+D8,sample,M_ASF2h-10,,1.0,ASF 2h,ASF,2.0
+F9,sample,M_NSF6h-10,,1.0,NSF 6h,NSF,6.0
+F10,sample,M_NSF6h-10,,1.0,NSF 6h,NSF,6.0

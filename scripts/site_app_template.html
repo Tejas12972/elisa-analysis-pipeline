@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>ELISA Analysis Pipeline · live app</title>
+<meta name="description" content="Interactive ELISA analysis: standard curves, QC, normalization and statistics, running entirely in your browser.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧪</text></svg>">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@stlite/browser@{version}/build/stlite.css">
+<style>
+  body {{ margin: 0; background: #ffffff; font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }}
+  #boot {{ max-width: 560px; margin: 18vh auto 0; padding: 0 16px; color: #31333f; text-align: center; }}
+  #boot h1 {{ font-size: 22px; margin: 0 0 8px; }}
+  #boot p {{ color: #6b6c75; line-height: 1.5; margin: 6px 0; }}
+  .bar {{ height: 4px; background: #eceef1; border-radius: 2px; overflow: hidden; margin: 22px auto 0; width: 240px; }}
+  .bar span {{ display: block; height: 100%; width: 40%; background: #2a78d6; border-radius: 2px;
+              animation: slide 1.4s ease-in-out infinite; }}
+  @keyframes slide {{ 0% {{ transform: translateX(-100%); }} 100% {{ transform: translateX(250%); }} }}
+</style>
+</head>
+<body>
+<div id="boot">
+  <h1>🧪 Loading the ELISA Analysis Pipeline…</h1>
+  <p>This app runs <b>entirely in your browser</b>: Python, SciPy and Streamlit compiled to
+  WebAssembly. The first visit downloads the scientific Python stack (≈ 30&nbsp;s on a
+  good connection); after that it is cached.</p>
+  <p><a href="../">← back to the project page</a></p>
+  <div class="bar"><span></span></div>
+</div>
+<div id="root"></div>
+<script type="module">
+import {{ mount }} from "https://cdn.jsdelivr.net/npm/@stlite/browser@{version}/build/stlite.js";
+const controller = mount(
+  {{
+    requirements: {requirements},
+    entrypoint: "streamlit_app.py",
+    archives: [{{ url: "./bundle.zip", format: "zip", options: {{}} }}],
+    streamlitConfig: {{
+      "client.toolbarMode": "viewer",
+      "theme.base": "light",
+      "theme.primaryColor": "#2a78d6",
+    }},
+  }},
+  document.getElementById("root"),
+);
+const boot = document.getElementById("boot");
+const observer = new MutationObserver(() => {{
+  if (document.querySelector("[data-testid='stApp']")) {{ boot.remove(); observer.disconnect(); }}
+}});
+observer.observe(document.getElementById("root"), {{ childList: true, subtree: true }});
+</script>
+</body>
+</html>

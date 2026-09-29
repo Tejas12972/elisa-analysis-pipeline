@@ -1,0 +1,6 @@
+plate_id,analyte,plate_file,layout_file,units,batch
+Assay_2_p1,analyte (undisclosed),plates/Assay_2_p1.csv,layouts/Assay_2_p1_layout.csv,pg/mL,Batch1
+Assay_3_and_4_p1,analyte (undisclosed),plates/Assay_3_and_4_p1.csv,layouts/Assay_3_and_4_p1_layout.csv,pg/mL,Batch1
+Assay_3_and_4_p2,analyte (undisclosed),plates/Assay_3_and_4_p2.csv,layouts/Assay_3_and_4_p2_layout.csv,pg/mL,Batch1
+Assay_11_and_12_p1,analyte (undisclosed),plates/Assay_11_and_12_p1.csv,layouts/Assay_11_and_12_p1_layout.csv,pg/mL,Batch2
+Assay_11_and_12_p2,analyte (undisclosed),plates/Assay_11_and_12_p2.csv,layouts/Assay_11_and_12_p2_layout.csv,pg/mL,Batch2

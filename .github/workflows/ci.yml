@@ -1,0 +1,51 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    name: tests (Python ${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+      - name: Install
+        run: pip install -e ".[dev,app]"
+      - name: Lint
+        run: |
+          ruff check .
+          ruff format --check .
+      - name: Test
+        env:
+          MPLBACKEND: Agg
+        run: pytest --cov=immunoassay --cov-report=term-missing
+
+  browser-stack:
+    name: tests (browser package versions)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          # Pyodide itself is Python 3.13, but matplotlib 3.8 has no cp313 wheels on PyPI;
+          # the library versions are what matter here.
+          python-version: "3.12"
+          cache: pip
+      - name: Install the Pyodide-equivalent stack
+        run: |
+          pip install -r requirements/browser-stack.txt
+          pip install --no-deps -e .
+      - name: Test
+        env:
+          MPLBACKEND: Agg
+        run: pytest
